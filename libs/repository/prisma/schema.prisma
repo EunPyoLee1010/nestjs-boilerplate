@@ -1,0 +1,33 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("RDBMS_URL")
+  schemas  = ["User"]
+}
+
+model User {
+  userId         String       @id @default(uuid()) @map("id") @db.Uuid()
+  loginId        String       @unique @map("login_id") @db.VarChar(50)
+  loginType      LoginType    @map("login_type")
+  passwdEnc      String       @map("passwd_enc") @db.VarChar(88)
+  passwdSalt     String       @map("passwd_salt") @db.VarChar(88)
+  name           String?      @db.VarChar(50)
+  createdAt      DateTime     @default(now()) @map("created_at")
+  lastAccessedAt DateTime     @default(now()) @map("last_accessed_at")
+  deletedAt      DateTime?    @map("deleted_at")
+  pictureUrl     String?      @map("picture_url")
+
+  @@schema("User")
+}
+
+enum LoginType {
+  google
+  kakao
+  naver
+
+  @@schema("User")
+}
