@@ -1,10 +1,10 @@
 import { TTokenPayload } from '@module/type/token.type';
 
 export const SYSTEM_TOKEN: TTokenPayload = {
-    userId: 'SYSTEM',
-    loginId: 'SYSTEM',
-    name: 'SYSTEM',
-    loginType: '',
+    userId: '9ae2ecbb-a4de-49f8-aa79-ff1a2ec9f2e3',
+    loginId: 'system',
+    name: 'system',
+    loginType: 'system',
 };
 
 export const loggingMsgFormat = {

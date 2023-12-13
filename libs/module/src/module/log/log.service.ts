@@ -1,4 +1,4 @@
-import { LoggerService } from '@nestjs/common';
+import { Injectable, LoggerService } from '@nestjs/common';
 import { Logger, createLogger, format, transports } from 'winston';
 import util from 'util';
 import moment from 'moment';
@@ -7,10 +7,12 @@ import { LogRepository } from '@repository/rdbms/log/log.repository';
 import { v4 } from 'uuid';
 import { TLogSaveInfo } from '@module/type/log.type';
 
+@Injectable()
 export class LogService implements LoggerService {
     private readonly logger: Logger;
-    constructor(private readonly logRepo: LogRepository, private readonly service?: string) {
-        const serviceFormat = util.format(`\x1b[35m%s\x1b[0m`, globalThis.serviceName ?? service);
+    private readonly service: string = globalThis.serviceName;
+    constructor(private readonly logRepo: LogRepository) {
+        const serviceFormat = util.format(`\x1b[35m%s\x1b[0m`, globalThis.serviceName ?? this.service);
         this.logger = createLogger({
             transports: [
                 new transports.Console({
@@ -54,6 +56,7 @@ export class LogService implements LoggerService {
     }
 
     async saveLog({ userId, message, level }: TLogSaveInfo) {
-        this.logRepo.create({ logId: v4(), logLevel: level, logMsg: message, serviceName: this.service, userId });
+        const logId = v4();
+        this.logRepo.create({ logId, logLevel: level, logMsg: message, serviceName: this.service, userId });
     }
 }

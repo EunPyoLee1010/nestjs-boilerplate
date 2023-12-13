@@ -7,13 +7,14 @@ import { useContainer } from 'class-validator';
 import { LogService } from '@module/module/log/log.service';
 import { SYSTEM_TOKEN } from '@module/constant/log.constant';
 import { SocketIOAdapter } from './router/socket/socket.adapter';
+import { LogRepository } from '@repository/rdbms/log/log.repository';
 
 globalThis.serviceName = 'api';
 
 async function bootstrap() {
-    const logger = new LogService();
-    const app = await NestFactory.create(AppModule, { logger });
+    const app = await NestFactory.create(AppModule);
     const config = app.get(ConfigService);
+    const logger = new LogService(app.get(LogRepository));
     const port = config.get('API_PORT');
 
     settingBootstrap(app, { logger, prefix: '/api/v1', socketAdapater: new SocketIOAdapter(app, config) });

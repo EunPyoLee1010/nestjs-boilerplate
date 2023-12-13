@@ -1,15 +1,19 @@
 /* eslint-disable camelcase */
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { RDBMSConnectionManager } from '../manager';
 import { Prisma } from '@prisma/client';
-import { existsSync, writeFile } from 'fs';
 import { ConfigService } from '@nestjs/config';
+import { existsSync, writeFile } from 'fs';
 import { ERROR_FILE_PATH_NOT_FOUND } from '@module/constant/error.constant';
 
 @Injectable()
 export class LogRepository {
     private readonly logRepo: Prisma.LogDelegate;
-    constructor(private readonly rdbms: RDBMSConnectionManager, private readonly config: ConfigService) {
+
+    constructor(
+        @Inject(forwardRef(() => RDBMSConnectionManager)) private readonly rdbms: RDBMSConnectionManager,
+        private readonly config: ConfigService
+    ) {
         this.logRepo = this.rdbms.client.log;
     }
 
