@@ -82,6 +82,12 @@ export const ERROR_CREATE_UPLOAD_URL: Readonly<ERROR_TYPE> = {
     message: `미디어 업로드를 실패하였습니다. (Url 생성 실패)`,
 };
 
+export const ERROR_FILE_PATH_NOT_FOUND: Readonly<ERROR_TYPE> = {
+    type: 'business',
+    code: 4901,
+    message: `찾을 수 없는 파일 경로 입니다.`,
+};
+
 export const ERROR_DATABASE_USER_SELECT: Readonly<ERROR_TYPE> = {
     type: 'database',
     code: 5000,
