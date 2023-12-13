@@ -49,6 +49,8 @@ export class CoreDynamicModule {
 
             JWT_SECRET: Joi.string(),
             JWT_EXPIRE_TIME: Joi.string().default('1h'),
+
+            STABLE_SCHEDULER_TIME: Joi.number().default(60 * 1000), //ms
         });
 
         return ConfigModule.forRoot({

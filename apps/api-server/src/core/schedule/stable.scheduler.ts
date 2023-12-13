@@ -18,7 +18,7 @@ export class StableScheduler {
 
     schedule() {
         this.logger.log(`Scheduler가 실행됐습니다.`, SYSTEM_TOKEN);
-        const intervalTime = this.config.get('');
-        stableSetInterval(async () => {}, 1000 * 60);
+        const intervalTime = this.config.get('STABLE_SCHEDULER_TIME');
+        stableSetInterval(async () => {}, intervalTime);
     }
 }

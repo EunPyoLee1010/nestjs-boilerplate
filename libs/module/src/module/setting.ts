@@ -8,7 +8,7 @@ import {
 import helmet from 'helmet';
 import { v4 } from 'uuid';
 import { createLogMessage } from '@module/module/log/logging';
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response, json, urlencoded } from 'express';
 import { DocumentBuilder, SwaggerCustomOptions, SwaggerModule } from '@nestjs/swagger';
 import { HttpExceptionFilter } from '@module/common/filter/exception.filter';
 import { LogService } from './log/log.service';
@@ -20,6 +20,8 @@ export function settingBootstrap(
     { logger, prefix, socketAdapater }: { logger: LogService; prefix: string; socketAdapater: WebSocketAdapter }
 ) {
     app.enableCors();
+    app.use(json({ limit: '50mb' }));
+    app.use(urlencoded({ extended: true, limit: '50mb' }));
     app.useGlobalPipes(new ValidationPipe({ transform: true }));
     app.setGlobalPrefix(prefix);
     app.useGlobalFilters(new HttpExceptionFilter(logger));
