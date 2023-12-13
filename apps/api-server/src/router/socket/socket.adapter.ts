@@ -21,8 +21,8 @@ export class SocketIOAdapter extends IoAdapter {
 
     createIOServer(port: number, options?: ServerOptions) {
         const server: Server = super.createIOServer(port, options);
-        const socketNamespaceName = this.config.get('SOCEKT_NAMESPACE');
-        server.of(socketNamespaceName).use(async (socket: Socket, next: (err?: any) => void) => {
+        const socketNamespace = this.config.get('SOCKET_NAMESPACE') ?? 'test';
+        server.of(socketNamespace).use(async (socket: Socket, next: (err?: any) => void) => {
             const client = socket as TSocketInfo;
             const verifyClient = await this.jwtGuard.verifySocket(client);
             if (!verifyClient) return next(new ForbiddenException());

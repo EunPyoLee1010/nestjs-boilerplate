@@ -11,16 +11,12 @@ export class CoreDynamicModule {
     public configModule() {
         const envFilePath = this.getEnvFilePath();
         const validationSchema = Joi.object({
-            PORT: {
-                API: Joi.number().default(3000),
-            },
             NODE_ENV: Joi.string().valid('development', 'production', 'test').default('production'),
             API_PORT: Joi.number().default(3000),
-            HOTSPOT_PORT: Joi.number().default(3001),
-            CHAT_PORT: Joi.number().default(3002),
+            SOCKET_PORT: Joi.number().default(3000),
+            SOCKET_NAMESPACE: Joi.string().default('test'),
 
             RDBMS_URL: Joi.string().default('postgresql://user:passwd@postgresql:5432'),
-            SERVICE_URL: Joi.string().default('127.0.0.1'),
 
             REDIS_HOST: Joi.string().default('localhost'),
             REDIS_PORT: Joi.number().default(6379),
@@ -47,17 +43,12 @@ export class CoreDynamicModule {
 
             AWS_ACCESS_KEY: Joi.string(),
             AWS_SECRET_KEY: Joi.string(),
+            AWS_BUCKET_REGION: Joi.string().default('ap-northeast-2'),
+            AWS_BUCKET_NAME: Joi.string(),
+            AWS_BUCKET_EXPIRES_IN: Joi.number().default(3 * 60),
 
             JWT_SECRET: Joi.string(),
             JWT_EXPIRE_TIME: Joi.string().default('1h'),
-
-            SOCKET_JWT_SECRET: Joi.string(),
-            SOCKET_JWT_EXPIRE_TIME: Joi.string().default('1h'),
-
-            GOOGLE_MAP_API_KEY: Joi.string(),
-
-            API_URL: Joi.string().default('127.0.0.1'),
-            GOOGLE_TEST_TOKEN: Joi.string(),
         });
 
         return ConfigModule.forRoot({

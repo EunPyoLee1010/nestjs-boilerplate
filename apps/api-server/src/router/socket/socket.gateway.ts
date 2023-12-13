@@ -19,7 +19,7 @@ import { SocketLoggingInterceptor } from '@module/common/interceptor/logging.int
 import { SocketExceptionFilter } from '@module/common/filter/exception.filter';
 import { JwtGuard } from '@module/common/guard/token.guard';
 
-@WebSocketGateway({ namespace: '' })
+@WebSocketGateway({ namespace: process.env.SOCKET_NAMESPACE || 'test' })
 @UseGuards(JwtGuard)
 @UseInterceptors(SocketLoggingInterceptor)
 @UseFilters(SocketExceptionFilter)
@@ -34,7 +34,7 @@ export class ChatGateway implements OnGatewayInit<Server>, OnGatewayConnection, 
     constructor(private readonly config: ConfigService, private readonly logger: LogService) {}
 
     public afterInit() {
-        const port = this.config.get('CHAT_PORT');
+        const port = this.config.get('SOCKET_PORT');
         this.logger.log(
             `${serviceName} Socket 서버가 실행됐습니다. (port: ${port}, namespace: ${this.io.name})`,
             SYSTEM_TOKEN
