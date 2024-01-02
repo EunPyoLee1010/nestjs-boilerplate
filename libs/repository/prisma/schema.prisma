@@ -20,19 +20,17 @@ model User {
   lastAccessedAt DateTime  @default(now()) @map("last_accessed_at")
   deletedAt      DateTime? @map("deleted_at")
   pictureUrl     String?   @map("picture_url")
-  log            Log[]
 
   @@schema("User")
 }
 
 model Log {
   logId       String   @id @default(uuid()) @map("id") @db.Uuid()
-  userId      String   @map("user_id") @db.Uuid()
+  userId      String   @map("user_id") @db.VarChar(36)
   serviceName String   @map("server_name") @db.VarChar(30)
   createdAt   DateTime @default(now()) @map("created_at")
   logMsg      String   @map("message") @db.Text()
   logLevel    LogLevel @map("level")
-  user        User     @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
 
   @@schema("Log")
 }
